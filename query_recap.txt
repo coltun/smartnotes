@@ -1,0 +1,9 @@
+
+# Will return a list of UserBot objects ([UserBot, UserBot, ..]) or [] if user has no user_bots.  
+user_bots = UserBot.objects.filter(user=request.user) 
+
+
+# Will return all notes of the list of user_bots ([UserBot, UserBot, ..]) or [] if the user_bots list is empty ([])
+notes = Note.objects.filter(userbot__in=user_bots)
+
+# This is cool because querying this way you DO NOT NEED any ifs :) If there are not notes or user bots you just get an empty list []

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	{% if form.errors %}
+		<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	{% if next %}
+    	{% if user.is_authenticated %}
+    		<p>Your account doesn't have access to this page. To proceed,
+    		please login with an account that has access.</p>
+    	{% else %}
+    	<p>Please login to see this page.</p>
+    	{% endif %}
+	{% endif %}
+
+	<h1> Login </h1>
+	<p> Please, use the following form to login:</p>
+	
+	<form action="{% url 'login' %}" method="POST">
+		{{ form.as_p}}
+		
+		{% csrf_token %}
+		<input type="hidden" name="next" value="{{ next }}">
+		<p> <input type="submit" value="Login"></p>
+	</form>  
+
+{% endblock %}
+

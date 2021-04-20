@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if all_notes %}
+<h3> Your Notes:</h3>
+
+	{% for note in all_notes %}
+
+<div class="card" style='margin-bottom: 24px'>
+  		<h5 class="card-header">
+		{% for nt in note.tags_list %}
+			{{nt.name}} 
+		{% endfor %}
+  		</h5>
+  		<div class="card-body">
+  			<p class="card-text">
+  				{{ note.text }}
+  				
+  			</p>
+    	</div>
+</div>
+	{% endfor %}
+
+{% else %}
+	<h5> You do not have any notes yet! </h5>
+{% endif %}
+{% endblock %}
+
+

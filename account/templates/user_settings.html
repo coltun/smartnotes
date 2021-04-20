@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+	
+	<h2> Choose a platform you want to send notes to: <h2>
+    <br>
+	
+
+<h4></h4>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div class="card" style="width: 18rem;">
+  <a href="{%url 'user_instructions'%}"><img class="card-img-top" src="{% static 'images/telegram2.jpeg' %}" alt="Card image cap"></a>
+  <div class="card-body">
+    <h5 class="card-title"> Telegram </h5>
+    <p class="card-text">Click the button below and follow the instructions to connect your SmartNotes to your Telegram </p>
+    <a class="btn btn-primary" href="{%url 'user_instructions'%}"><i class="bi bi-telegram"></i> Connect Telegram </a>
+  </div>
+</div>
+    </div>
+    <div class="col-sm">
+      <div class="card" style="width: 18rem;">
+  <a href="#"><img class="card-img-top" src="{% static 'images/whatsapp3.png' %}" alt="Card image cap"></a>
+  <div class="card-body">
+    <h5 class="card-title"> Whatsapp </h5>
+    <p class="card-text">The service for Whatsapp platform is coming soon.<br> Stay tuned!</p>
+    <a href="#" a href="#" class="btn btn-success disabled" role="button" aria-disabled="true"><i class="bi bi-whatsapp"></i> Whatsapp Coming Soon</a>
+  </div>
+</div>
+    </div>
+    <div class="col-sm">
+      <div class="card" style="width: 18rem;">
+  <a href="#"><img class="card-img-top" src="{% static 'images/fbmessenger2.png' %}" alt="Card image cap"></a>
+  <div class="card-body">
+    <h5 class="card-title"> Messenger </h5>
+    <p class="card-text">The service for Messenger platform is coming soon.<br> Stay tuned!</p>
+    <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true"><i class="bi bi-facebook"></i> Messenger Coming Soon</a>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+		
+	
+	
+{% endblock %}
