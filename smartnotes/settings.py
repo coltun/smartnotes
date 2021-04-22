@@ -32,7 +32,7 @@ SECRET_KEY = 'w#bqt(6bl2&bw+y6f8&u33vd2i9($0vrz5^pehw&nu*-^1ml7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['159.203.84.69', 'localhost']
+ALLOWED_HOSTS = ['smartnotes.colac.xyz', 'localhost']
 
 
 # Application definition
