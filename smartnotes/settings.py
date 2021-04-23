@@ -32,7 +32,7 @@ SECRET_KEY = 'w#bqt(6bl2&bw+y6f8&u33vd2i9($0vrz5^pehw&nu*-^1ml7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['projectnet.net', 'www.projectnet.net', 'localhost']
+ALLOWED_HOSTS = ['smartnotes.projectnet.net', 'www.smartnotes.projectnet.net', 'localhost']
 
 
 # Application definition
