@@ -18,6 +18,8 @@ dotenv.load_dotenv()
 NAME = os.getenv('NAME')
 USER = os.getenv('USER')
 PASSWORD = os.getenv('PASSWORD')
+DOMAIN_NAME = os.getenv('DOMAIN_NAME')
+DOMAIN_NAME_W = os.getenv('DOMAIN_NAME_W')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +34,7 @@ SECRET_KEY = 'w#bqt(6bl2&bw+y6f8&u33vd2i9($0vrz5^pehw&nu*-^1ml7y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['138.197.109.248']
+ALLOWED_HOSTS = [ DOMAIN_NAME, DOMAIN_NAME_W ]
 
 
 # Application definition
