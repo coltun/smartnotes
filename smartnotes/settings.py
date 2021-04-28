@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'w#bqt(6bl2&bw+y6f8&u33vd2i9($0vrz5^pehw&nu*-^1ml7y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = [ DOMAIN_NAME, DOMAIN_NAME_W ]
 
