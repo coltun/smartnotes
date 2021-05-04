@@ -15,6 +15,7 @@ import os
 import dotenv
 
 dotenv.load_dotenv()
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'production')
 NAME = os.getenv('NAME')
 USER = os.getenv('USER')
 PASSWORD = os.getenv('PASSWORD')
@@ -84,15 +85,8 @@ WSGI_APPLICATION = 'smartnotes.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if DEBUG:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-else:
-    DATABASES = {
+
+DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': NAME,
