@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from account.forms import CustomLoginForm, UserRegistrationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from notes.models import BotUser, Note, Tag
 # Create your views here.
@@ -18,8 +17,7 @@ class CustomLogoutView(LogoutView):
 
 @login_required
 def login_success(request):
-	bot_users = BotUser.objects.filter(user=request.user)
-	all_notes = Note.objects.filter(bot_user__in=bot_users)
+	all_notes = Note.objects.filter(user=request.user)
 	
 	return render(request, "notes.html", {'all_notes': all_notes})
 

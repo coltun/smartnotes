@@ -18,7 +18,7 @@
 	<h1> Login </h1>
 	<p> Please, use the following form to login:</p>
 	
-	<form action="{% url 'login' %}" method="POST">
+	<form action="{% url 'account:login' %}" method="POST">
 		{{ form.as_p}}
 		
 		{% csrf_token %}

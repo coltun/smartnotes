@@ -33,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'w#bqt(6bl2&bw+y6f8&u33vd2i9($0vrz5^pehw&nu*-^1ml7y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", False)
+DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = [ DOMAIN_NAME, DOMAIN_NAME_W ]
+ALLOWED_HOSTS = [ DOMAIN_NAME ]
 
 
 # Application definition
@@ -137,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-LOGIN_REDIRECT_URL = 'notes'
+LOGIN_REDIRECT_URL = 'account:notes'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [

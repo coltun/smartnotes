@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class BotUser(models.Model):
@@ -24,7 +25,8 @@ class Note(models.Model):
 	created = models.DateTimeField(auto_now=True)
 	updated = models.DateTimeField(auto_now=True)
 	tags = models.ManyToManyField(Tag)
-	bot_user = models.ForeignKey(BotUser, on_delete=models.CASCADE, null=True)
+	bot_user = models.ForeignKey(BotUser, on_delete=models.CASCADE, null=True, blank=True)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 	@property
 	def tags_list(self):
@@ -33,6 +35,9 @@ class Note(models.Model):
 		
 	def __str__(self):
 		return f"Note:<{self.id}> <{self.text}> <{self.bot_user}>"
+
+	def get_absolute_url(self):
+		return reverse("account:notes")
 
 
 

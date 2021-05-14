@@ -2,6 +2,8 @@ from django.urls import path
 from account import views
 from account.views import CustomLoginView, CustomLogoutView
 
+app_name = 'account'
+
 urlpatterns = [
 	path('', views.homepage, name='homepage'),
 	path('notes/', views.login_success, name='notes'),
