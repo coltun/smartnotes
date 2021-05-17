@@ -2,10 +2,13 @@ import json
 import requests
 import dotenv
 import os
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.views.generic.edit import UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Note, BotUser, Tag
+from .forms import NoteForm
 from .utils import extract_hash_tags
 
 dotenv.load_dotenv()
@@ -44,21 +47,67 @@ def telegram_webhook(request):
 			chat_id = message['chat']['id']
 			if BotUser.objects.filter(chat_id=chat_id, platform='telegram').exists():
 				string_tags = extract_hash_tags(text)
+				#print(string_tags)
 				bot_user = BotUser.objects.get(chat_id=chat_id, platform='telegram')
 				user = bot_user.user
 				note = Note.objects.create(text=text, bot_user=bot_user)
 				user_tags = user.tag_set.all()
 				user_tags_list = user_tags.values_list('name', flat=True)
+				#print(user_tags_list)
 				new_tags = []
 				for string_tag in string_tags:
 					if string_tag not in user_tags_list:
 						new_tags.append(string_tag)
 						Tag.objects.create(name=string_tag, user=user)
 				note_tags = Tag.objects.filter(user=user, name__in=string_tags)
-				note.tags.add(*note_tags)
-				note.save()
+				if not note_tags:
+					if Tag.objects.filter(user=user, name='#untagged').exists():
+						default_tag = Tag.objects.get(name='#untagged')
+					else:
+						default_tag = Tag.objects.create(user=user, name='#untagged')
+					note.tags.add(default_tag)
+				else:
+					note.tags.add(*note_tags)
+					note.save()
 
 			else:
 				chat_id = str(chat_id)
 				activate_bot(text, chat_id)
 	return HttpResponse(status=200)
+
+#CRUD note on website
+
+def create_note(request):
+	context = {}
+	form = NoteForm(request.POST or None)
+	if form.is_valid():
+		cd_text = form.cleaned_data.get('text')
+		cd_tags = form.cleaned_data.get('tags')
+		new_note = Note.objects.create(user=request.user, text=cd_text)
+		for tag in cd_tags:
+			new_note.tags.add(tag)
+			return redirect('account:notes')
+	context['form'] = form
+	return render(request, 'create_note.html', context)
+
+class NoteUpdateView(UpdateView):
+	model = Note
+	fields = ['text', 'tags']
+	template_name_suffix = '_update_form'
+
+	def get_queryset(self):
+		qs = super(NoteUpdateView, self).get_queryset()
+		return qs.filter(user=self.request.user)
+
+	
+class NoteDeleteView(DeleteView):
+	model = Note
+	success_url = reverse_lazy('account:notes')
+
+	def get_queryset(self):
+		qs = super(NoteDeleteView, self).get_queryset()
+		return qs.filter(user=self.request.user)
+
+
+
+

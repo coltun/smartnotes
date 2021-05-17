@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<a class="navbar-brand float-right" href="{% url 'create_note'%}"><button type="button" class="btn btn-light">Add note <i class="bi bi-pen"></i></button></a> <br>
 {% if all_notes %}
 <h3> Your Notes:</h3>
-
 	{% for note in all_notes %}
 
 <div class="card" style='margin-bottom: 24px'>
   		<h5 class="card-header">
 		{% for nt in note.tags_list %}
-			{{nt.name}} 
+			{{nt.name}}
+        <a class="navbar-brand float-right" href="{% url 'update_note' pk=note.pk%}"><button type="button" class="btn btn-light"><i class="bi bi-pencil"></i></button></a>
+
+          <a class="navbar-brand float-right" href="{% url 'note_delete' pk=note.pk%}"><button type="button" class="btn btn-light"><i   class="bi bi-trash"></i></button></a>
 		{% endfor %}
   		</h5>
   		<div class="card-body">
   			<p class="card-text">
   				{{ note.text }}
-  				
   			</p>
     	</div>
 </div>

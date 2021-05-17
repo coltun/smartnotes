@@ -22,6 +22,7 @@ from notes import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('account.urls')),
+    path('', include('notes.urls')),
     path('webhook/', views.telegram_webhook, name='telegram_webhook'),
     
     
