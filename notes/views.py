@@ -48,7 +48,7 @@ def telegram_webhook(request):
 				string_tags = extract_hash_tags(text)
 				bot_user = BotUser.objects.get(chat_id=chat_id, platform='telegram')
 				user = bot_user.user
-				note = Note.objects.create(text=text, bot_user=bot_user)
+				note = Note.objects.create(text=text, user=user)
 				user_tags = user.tag_set.all()
 				user_tags_list = user_tags.values_list('name', flat=True)
 				new_tags = []
