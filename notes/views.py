@@ -25,14 +25,14 @@ def activate_bot(text, chat_id):
 			bot_user.chat_id = chat_id
 			bot_user.save()
 			message = "You have successfully activated your account!"
-			url = 'https://api.telegram.org/bot' + API_KEY + '/sendMessage?chat_id=' + chat_id + '&text=' + message
+			url = 'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(API_KEY, chat_id, message)
 			requests.get(url)
 			return True
-	else:
-		message = "Yo, Activation has failed! \nTo activate your account send a message to me starting with:\n/code followed by activation_token received from the website.\nExample:\n/code sW2ax"
-		url = 'https://api.telegram.org/bot' + API_KEY + '/sendMessage?chat_id=' + chat_id + '&text=' + message
-		requests.get(url)
-		return False
+		else:
+			message = "Yo, Activation has failed! \nTo activate your account send a message to me starting with:\n/code followed by activation_token received from the website.\nExample:\n/code sW2ax"
+			url = 'https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}'.format(API_KEY, chat_id, message)
+			requests.get(url)
+			return False
 
 
 @csrf_exempt
@@ -44,6 +44,7 @@ def telegram_webhook(request):
 		if message:
 			text = message['text']
 			chat_id = message['chat']['id']
+			print(chat_id)
 			if BotUser.objects.filter(chat_id=chat_id, platform='telegram').exists():
 				string_tags = extract_hash_tags(text)
 				bot_user = BotUser.objects.get(chat_id=chat_id, platform='telegram')
