@@ -18,11 +18,13 @@ API_KEY = os.getenv('API_KEY')
 # Create your views here.
 def activate_bot(text, chat_id):
 	separate_strings = text.split()
+	print("Separate_strings:", separate_strings)
 	if separate_strings[0].startswith('/code') == True and len(separate_strings[1]) == 5:
 		bot_activation_token = separate_strings[1]
 		if BotUser.objects.filter(activation_token=bot_activation_token).exists():
 			bot_user = BotUser.objects.get(activation_token=bot_activation_token)
 			bot_user.chat_id = chat_id
+			print(bot_user.chat_id)
 			bot_user.save()
 			message = "You have successfully activated your account!"
 			url = 'https://api.telegram.org/bot' + API_KEY + '/sendMessage?chat_id=' + chat_id + '&text=' + message
@@ -40,20 +42,17 @@ def telegram_webhook(request):
 	if request.method == "POST":
 		data = request.body.decode("utf8")
 		update = json.loads(data)
-		print(update)
 		message = update.get('message')
 		if message:
 			text = message['text']
 			chat_id = message['chat']['id']
 			if BotUser.objects.filter(chat_id=chat_id, platform='telegram').exists():
 				string_tags = extract_hash_tags(text)
-				#print(string_tags)
 				bot_user = BotUser.objects.get(chat_id=chat_id, platform='telegram')
 				user = bot_user.user
 				note = Note.objects.create(text=text, bot_user=bot_user)
 				user_tags = user.tag_set.all()
 				user_tags_list = user_tags.values_list('name', flat=True)
-				#print(user_tags_list)
 				new_tags = []
 				for string_tag in string_tags:
 					if string_tag not in user_tags_list:
@@ -62,7 +61,7 @@ def telegram_webhook(request):
 				note_tags = Tag.objects.filter(user=user, name__in=string_tags)
 				if not note_tags:
 					if Tag.objects.filter(user=user, name='#untagged').exists():
-						default_tag = Tag.objects.get(name='#untagged')
+						default_tag = Tag.objects.get(user=user, name='#untagged')
 					else:
 						default_tag = Tag.objects.create(user=user, name='#untagged')
 					note.tags.add(default_tag)
