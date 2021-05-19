@@ -18,13 +18,11 @@ API_KEY = os.getenv('API_KEY')
 # Create your views here.
 def activate_bot(text, chat_id):
 	separate_strings = text.split()
-	print("Separate_strings:", separate_strings)
 	if separate_strings[0].startswith('/code') == True and len(separate_strings[1]) == 5:
 		bot_activation_token = separate_strings[1]
 		if BotUser.objects.filter(activation_token=bot_activation_token).exists():
 			bot_user = BotUser.objects.get(activation_token=bot_activation_token)
 			bot_user.chat_id = chat_id
-			print(bot_user.chat_id)
 			bot_user.save()
 			message = "You have successfully activated your account!"
 			url = 'https://api.telegram.org/bot' + API_KEY + '/sendMessage?chat_id=' + chat_id + '&text=' + message
