@@ -40,20 +40,17 @@ def telegram_webhook(request):
 	if request.method == "POST":
 		data = request.body.decode("utf8")
 		update = json.loads(data)
-		print(update)
 		message = update.get('message')
 		if message:
 			text = message['text']
 			chat_id = message['chat']['id']
 			if BotUser.objects.filter(chat_id=chat_id, platform='telegram').exists():
 				string_tags = extract_hash_tags(text)
-				#print(string_tags)
 				bot_user = BotUser.objects.get(chat_id=chat_id, platform='telegram')
 				user = bot_user.user
-				note = Note.objects.create(text=text, bot_user=bot_user)
+				note = Note.objects.create(text=text, user=user)
 				user_tags = user.tag_set.all()
 				user_tags_list = user_tags.values_list('name', flat=True)
-				#print(user_tags_list)
 				new_tags = []
 				for string_tag in string_tags:
 					if string_tag not in user_tags_list:
@@ -62,7 +59,7 @@ def telegram_webhook(request):
 				note_tags = Tag.objects.filter(user=user, name__in=string_tags)
 				if not note_tags:
 					if Tag.objects.filter(user=user, name='#untagged').exists():
-						default_tag = Tag.objects.get(name='#untagged')
+						default_tag = Tag.objects.get(user=user, name='#untagged')
 					else:
 						default_tag = Tag.objects.create(user=user, name='#untagged')
 					note.tags.add(default_tag)
