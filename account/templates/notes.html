@@ -10,10 +10,9 @@
   		<h5 class="card-header">
 		{% for nt in note.tags_list %}
 			{{nt.name}}
-        <a class="navbar-brand float-right" href="{% url 'update_note' pk=note.pk%}"><button type="button" class="btn btn-light"><i class="bi bi-pencil"></i></button></a>
-
-          <a class="navbar-brand float-right" href="{% url 'note_delete' pk=note.pk%}"><button type="button" class="btn btn-light"><i   class="bi bi-trash"></i></button></a>
-		{% endfor %}
+    {% endfor %}
+      <a class="navbar-brand float-right" href="{% url 'update_note' pk=note.pk%}"><button type="button" class="btn btn-light"><i class="bi bi-pencil"></i></button></a>
+      <a class="navbar-brand float-right" href="{% url 'note_delete' pk=note.pk%}"><button type="button" class="btn btn-light"><i   class="bi bi-trash"></i></button></a>
   		</h5>
   		<div class="card-body">
   			<p class="card-text">
