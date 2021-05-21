@@ -1,19 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="form-group">
-<div class="form-check">
-<form method="POST" enctype="multipart/form-data">
-  
-    <!-- Security token -->
-    {{ form.as_p }}
-    {% csrf_token %}
-  
-    <!-- Using the formset -->
-
-      
-    <input  class="btn btn-outline-dark"type="submit" value="Create Note">
-</form>
-</div>
-</div>
+	<form method="POST" enctype="multipart/form-data">
+		{{ form.as_p }}
+		{% csrf_token %}
+		<input  class="btn btn-outline-dark"type="submit" value="Create Note">
+	</form>
+	
 {% endblock %}
