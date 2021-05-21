@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Note, BotUser, Tag
-from .forms import NoteForm
+from .forms import NoteForm, NoteUpdateForm
 from .utils import extract_hash_tags
 
 dotenv.load_dotenv()
@@ -90,7 +90,7 @@ def create_note(request):
 
 class NoteUpdateView(UpdateView):
 	model = Note
-	fields = ['text', 'tags']
+	form_class = NoteUpdateForm
 	template_name_suffix = '_update_form'
 
 	def get_queryset(self):
