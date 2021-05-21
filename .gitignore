@@ -1,15 +1,5 @@
+ __pycache__/
+ *.pyc
 .DS_Store
 db.sqlite3
 .env
-account/__pycache__/urls.cpython-39.pyc
-account/__pycache__/urls.cpython-39.pyc
-account/__pycache__/views.cpython-39.pyc
-notes/__pycache__/forms.cpython-39.pyc
-notes/__pycache__/models.cpython-39.pyc
-notes/__pycache__/urls.cpython-39.pyc
-notes/__pycache__/views.cpython-39.pyc
-notes/migrations/__pycache__/0005_note_user.cpython-39.pyc
-notes/migrations/__pycache__/0006_auto_20210505_1158.cpython-39.pyc
-smartnotes/__pycache__/settings.cpython-39.pyc
-smartnotes/__pycache__/urls.cpython-39.pyc
-notes/migrations/__pycache__/0007_auto_20210518_1452.cpython-39.pyc
