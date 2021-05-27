@@ -4,7 +4,21 @@
 <a class="navbar-brand float-right" href="{% url 'create_note'%}"><button type="button" class="btn btn-light">Add note <i class="bi bi-pen"></i></button></a> <br>
 {% if all_notes %}
 <h3> Your Notes:</h3>
+<h5> Your tags: </h5>
+{% for tag in user_tags %}
+
+
+<div class="list-group align-baseline">
+  <label class="list-group-item">
+    <input class="form-check-input me-1" type="checkbox" value="">
+    <a href="{%url 'list_by_tag' tag.name %}">{{tag.name}}</a> <br><br>
+  </label>
+
+</div>
+{% endfor %}
+
 	{% for note in all_notes %}
+
 
 <div class="card" style='margin-bottom: 24px'>
   		<h5 class="card-header">

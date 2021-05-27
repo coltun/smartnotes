@@ -2,7 +2,7 @@ import json
 import requests
 import dotenv
 import os
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView, DeleteView
@@ -106,6 +106,13 @@ class NoteDeleteView(DeleteView):
 		qs = super(NoteDeleteView, self).get_queryset()
 		return qs.filter(user=self.request.user)
 
+def post_list_by_tag(request, tag_name=None):
+	notes_list = Note.objects.filter(user=request.user)
+	tag = None
 
+	if tag_name:
+		tag = get_object_or_404(Tag, name=tag_name, user=request.user)
+		notes_list = Note.objects.filter(tags=tag)
+	return render(request, 'notes/list_by_tag.html', {'tag':tag, 'notes_list':notes_list})
 
 
