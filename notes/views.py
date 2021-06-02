@@ -113,6 +113,6 @@ def post_list_by_tag(request, tag_name=None):
 	if tag_name:
 		tag = get_object_or_404(Tag, name=tag_name, user=request.user)
 		notes_list = Note.objects.filter(tags=tag)
-	return render(request, 'notes/list_by_tag.html', {'tag':tag, 'notes_list':notes_list})
+	return render(request, 'notes/list_by_tag.html', {'tag': tag, 'notes_list': notes_list})
 
 

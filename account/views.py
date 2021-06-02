@@ -31,7 +31,7 @@ def display_notes(request):
 		search_term = request.GET.get('term')
 		all_notes = all_notes.filter(text__icontains=search_term)
 	
-	return render(request, "notes.html", {'all_notes': all_notes, 'user_tags': user_tags, 'filtered_tags_names':filtered_tags_names})
+	return render(request, "notes.html", {'all_notes': all_notes, 'user_tags': user_tags, 'filtered_tags_names': filtered_tags_names})
 
 def register(request):
 	if request.method == "POST":
