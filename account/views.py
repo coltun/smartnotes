@@ -16,13 +16,16 @@ class CustomLogoutView(LogoutView):
 	template_name = "homepage.html"
 
 @login_required
-def login_success(request):
+def display_notes(request):
 	user = request.user
 	all_notes = Note.objects.filter(user=request.user)
 	user_tags = user.tag_set.all()
+	filtered_tags_names = []
+	
 
-	if request.GET.get('tags'):
-		filtered_tags_names = ['#{}'.format(ftn) for ftn in request.GET.get('tags').split(',')]
+	if request.GET.getlist('tags'):
+		#filtered_tags_names = ['#{}'.format(ftn) for ftn in request.GET.get('tags').split(',')]
+		filtered_tags_names =  request.GET.getlist('tags')
 		print(filtered_tags_names)
 		all_notes = all_notes.filter(tags__name__in=filtered_tags_names)
 
@@ -30,9 +33,8 @@ def login_success(request):
 		search_term = request.GET.get('term')
 		print(search_term)
 		all_notes = all_notes.filter(text__icontains=search_term)
-
 	
-	return render(request, "notes.html", {'all_notes': all_notes, 'user_tags': user_tags})
+	return render(request, "notes.html", {'all_notes': all_notes, 'user_tags': user_tags, 'filtered_tags_names':filtered_tags_names})
 
 def register(request):
 	if request.method == "POST":
