@@ -24,14 +24,11 @@ def display_notes(request):
 	
 
 	if request.GET.getlist('tags'):
-		#filtered_tags_names = ['#{}'.format(ftn) for ftn in request.GET.get('tags').split(',')]
 		filtered_tags_names =  request.GET.getlist('tags')
-		print(filtered_tags_names)
 		all_notes = all_notes.filter(tags__name__in=filtered_tags_names)
 
 	if request.GET.get('term'):
 		search_term = request.GET.get('term')
-		print(search_term)
 		all_notes = all_notes.filter(text__icontains=search_term)
 	
 	return render(request, "notes.html", {'all_notes': all_notes, 'user_tags': user_tags, 'filtered_tags_names':filtered_tags_names})
