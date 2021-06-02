@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+	{% for note in notes_list %}
+    <div class="card" style='margin-bottom: 24px'>
+      <div class="card-header">
+        {% for nt in note.tags_list %}
+          <a href="{%url 'list_by_tag' nt.name %}">
+            <span class="badge badge-dark"> {{ nt.name }} </span>
+          </a>
+        {% endfor %}
+        <a class="btn btn-light navbar-brand float-right" href="{% url 'update_note' pk=note.pk %}">
+          <i class="bi bi-pencil"></i>
+        </a>
+        <a class="btn btn-light navbar-brand float-right" href="{% url 'note_delete' pk=note.pk %}">
+          <i class="bi bi-trash"></i>
+        </a>
+      </div>
+      
+  		<div class="card-body">
+  			<p class="card-text">
+  				{{ note.text }}
+  			</p>
+    	</div>
+  </div>
+  {% endfor %}
+{% endblock %}
