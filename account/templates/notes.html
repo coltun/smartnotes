@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <a class="navbar-brand float-right" href="{% url 'create_note' %}">
-    <button type="button" class="btn btn-light"> Add note <i class="bi bi-pen"></i></button>
-  </a> <br>
+  <a class="btn btn-light navbar-brand float-right" href="{% url 'create_note' %}">
+    Add note <i class="bi bi-pen"></i>
+  </a> 
+
+  <br>
 
   {% if all_notes %}
     <h3> Your Notes:</h3>
@@ -10,19 +12,24 @@
       <div class="col">
         {% for note in all_notes %}
           <div class="card" style='margin-bottom: 24px'>
-  		      <h5 class="card-header" style="max-height: 58px">
-		        {% for nt in note.tags_list %}
-            <a href="{%url 'list_by_tag' nt.name %}">
-            <span class="badge badge-dark"> {{ nt.name }} </span>
-            </a>
-            {% endfor %}
-            <a class="navbar-brand float-right" href="{% url 'update_note' pk=note.pk %}"><button type="button" class="btn btn-light"><i class="bi bi-pencil"></i></button></a>
-            <a class="navbar-brand float-right" href="{% url 'note_delete' pk=note.pk %}"><button type="button" class="btn btn-light"><i class="bi bi-trash"></i></button></a>
-  		      </h5>
+  		      <div class="card-header">
+  		        {% for nt in note.tags_list %}
+                <a href="{%url 'list_by_tag' nt.name %}">
+                  <span class="badge badge-dark"> {{ nt.name }} </span>
+                </a>
+              {% endfor %}
+              <a class="btn btn-light navbar-brand float-right" href="{% url 'update_note' pk=note.pk %}">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a class="btn btn-light navbar-brand float-right" href="{% url 'note_delete' pk=note.pk %}">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+
   		      <div class="card-body">
-  			       <p class="card-text">
+              <p class="card-text">
   				      {{ note.text }}
-  			       </p>
+              </p>
             </div>
           </div>
 	     {% endfor %}
@@ -37,7 +44,7 @@
             <div class="list-group align-baseline">
               <div class="col">
                 <input class="form-check-input me-1" type="checkbox" value="{{ tag.name }}" name="tags" {% if tag.name in filtered_tags_names %} checked {% endif %}>
-                  <a href="{% url 'list_by_tag' tag.name %}">{{ tag.name }}</a>
+                <a href="{% url 'list_by_tag' tag.name %}">{{ tag.name }}</a>
               </div>
             </div>
           {% endfor %} 
