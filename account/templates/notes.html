@@ -9,7 +9,7 @@
   {% if all_notes %}
     <h3> Your Notes:</h3>
     <div class="row">
-      <div class="col">
+      <div class="col-md-9">
         {% for note in all_notes %}
           <div class="card" style='margin-bottom: 24px'>
   		      <div class="card-header">
@@ -35,20 +35,21 @@
 	     {% endfor %}
       </div>
 
-      <form method="get" action="{% url 'account:notes' %}">
-        <div class="col">
-          <button type='submit' class="btn btn-secondary btn-block my-2"> Filter </button>
-          <input value='{{ request.GET.term }}' name="term" class="form-control" placeholder="search...">
-          <hr></hr>
-          {% for tag in user_tags %}
-            <div class="list-group align-baseline">
-              <div class="col">
-                <input class="form-check-input me-1" type="checkbox" value="{{ tag.name }}" name="tags" {% if tag.name in filtered_tags_names %} checked {% endif %}>
-                <a href="{% url 'list_by_tag' tag.name %}">{{ tag.name }}</a>
-              </div>
+        <div class="col-md-3" style="background: white">
+          <form method="get" action="{% url 'account:notes' %}">
+            <button type='submit' class="btn btn-secondary btn-block my-2"> Filter </button>
+            <input value='{{ request.GET.term }}' name="term" class="form-control" placeholder="search...">
+            <hr></hr>
+            {% for tag in user_tags %}
+              <div class="list-group align-baseline">
+                <div class="col-md-4">
+                  <input class="form-check-input me-1" type="checkbox" value="{{ tag.name }}" name="tags" {% if tag.name in filtered_tags_names %} checked {% endif %}>
+                  <a href="{% url 'list_by_tag' tag.name %}">{{ tag.name }}</a>
+                </div>
             </div>
-          {% endfor %} 
-      </form>
+            {% endfor %} 
+        </form>
+      </div>
     </div>
 
   {% else %}
