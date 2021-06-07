@@ -30,6 +30,7 @@ class Note(models.Model):
 
 	class Meta:
 		ordering = ('-created',)
+		
 	@property
 	def tags_list(self):
 		note_tags = self.tags.all()
