@@ -28,6 +28,8 @@ class Note(models.Model):
 	bot_user = models.ForeignKey(BotUser, on_delete=models.CASCADE, null=True, blank=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+	class Meta:
+		ordering = ('-created',)
 	@property
 	def tags_list(self):
 		note_tags = self.tags.all()
