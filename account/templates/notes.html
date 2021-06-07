@@ -18,11 +18,11 @@
                   <span class="badge badge-dark"> {{ nt.name }} </span>
                 </a>
               {% endfor %}
-              <a class="btn btn-light navbar-brand float-right" href="{% url 'update_note' pk=note.pk %}">
-                <i class="bi bi-pencil"></i>
+              <a class="btn btn-sm float-right" href="{% url 'update_note' pk=note.pk %}">
+                <i class="bi bi-pencil" style="padding: : 0px"></i>
               </a>
-              <a class="btn btn-light navbar-brand float-right" href="{% url 'note_delete' pk=note.pk %}">
-                <i class="bi bi-trash"></i>
+              <a class="btn btn-sm float-right" href="{% url 'note_delete' pk=note.pk %}">
+                <i class="bi bi-trash" style="padding: 0px"></i>
               </a>
             </div>
 
