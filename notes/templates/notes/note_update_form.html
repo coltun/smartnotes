@@ -3,13 +3,14 @@
 	<form method="POST" id='edit_form'>
 		{% csrf_token %}
 		<label for="edit_note"> Edit Note </label>
-		<textarea class="form-control" id="edi_note" rows="10" name="text"> {{note.text}}</textarea>
+		<textarea class="form-control" id="edi_note" rows="10" name="text">{{ note.text }}</textarea>
 
 		<label for="edit_tags"> Edit Tags </label>
-    	<textarea class="form-control" id="edi_tags" rows="3" name="tags"> {{tags}} </textarea>
+    	<textarea class="form-control" id="edi_tags" rows="3" name="tags">{{ tags }}</textarea>
 
     	<br>
 		
 		<input class="btn btn-outline-dark" type="submit" value="Update">
 	</form>
+
 {% endblock %}

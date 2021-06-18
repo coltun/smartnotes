@@ -11,7 +11,6 @@ from django.urls import reverse_lazy
 from .models import Note, BotUser, Tag
 from .forms import NoteForm
 from .utils import extract_hash_tags
-from django.http import HttpResponse
 
 dotenv.load_dotenv()
 API_KEY = os.getenv('API_KEY')
@@ -80,28 +79,21 @@ def create_note(request):
 	form = NoteForm(request.POST or None)
 	if form.is_valid():
 		text = form.cleaned_data.get('text')
-		string_tags = extract_hash_tags(text)
-		for string_tag in string_tags:
-			text = text.replace(string_tag, "")
+		hashtags = extract_hash_tags(text)
+		for hashtag in hashtags:
+			text = text.replace(hashtag, "")
 		clean_text = " ".join(text.split())
 		note = Note.objects.create(text=clean_text, user=user)
-		user_tags = user.tag_set.all()
-		user_tags_list = user_tags.values_list('name', flat=True)
-		new_tags = []
-		for string_tag in string_tags:
-			if string_tag not in user_tags_list:
-				new_tags.append(string_tag)
-				Tag.objects.create(name=string_tag, user=user)
-		note_tags = Tag.objects.filter(user=user, name__in=string_tags)
-		if not note_tags:
-			if Tag.objects.filter(user=user, name='#untagged').exists():
-				default_tag = Tag.objects.get(user=user, name='#untagged')
-			else:
-				default_tag = Tag.objects.create(user=user, name='#untagged')
-			note.tags.add(default_tag)
-		else:
-			note.tags.add(*note_tags)
-			note.save()
+		tags = []
+		for hashtag in hashtags:
+			tag, created = Tag.objects.get_or_create(name=hashtag, user=user)
+			tags.append(tag)
+		if not hashtags:
+			tag, created = Tag.objects.get_or_create(name="#untagged", user=user)
+			tags.append(tag)
+		note.tags.clear()
+		note.tags.add(*tags)
+		note.save()
 		return redirect('account:notes')
 	context['form'] = form
 	return render(request, 'create_note.html', context)
@@ -120,7 +112,6 @@ class NoteUpdateView(View):
 		user = request.user
 		note = get_object_or_404(Note, pk=pk, user=request.user)
 		note.text = request.POST.get('text', note.text)
-		note.tags.clear()
 		hashtags_string = request.POST.get('tags')
 		hashtags = hashtags_string.split()
 		tags = []
@@ -130,6 +121,7 @@ class NoteUpdateView(View):
 		if not hashtags:
 			tag, created = Tag.objects.get_or_create(name="#untagged", user=user)
 			tags.append(tag)
+		note.tags.clear()
 		note.tags.add(*tags)
 		note.save()
 		return redirect('account:notes')
